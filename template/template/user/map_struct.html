@@ -1,0 +1,22 @@
+{{ define "user/map_struct.html" }}
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>map_struct渲染</title>
+</head>
+
+<body>
+    {{ range $k, $v := . }}
+    <p>
+        <span>{{$k}}</span>
+        <span>{{$v.Id}}</span>
+        <span>{{$v.Name}}</span>
+        <span>{{$v.Age}}</span>
+        <span>{{$v.Addr}}</span>
+    </p>
+    {{ end }}
+</body>
+
+</html>
+{{ end }}
