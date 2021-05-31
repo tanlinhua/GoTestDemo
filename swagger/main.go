@@ -2,21 +2,34 @@ package main
 
 import (
 	"net/http"
-
-	_ "swagger.demo/docs" // 执行swag init生成的docs文件夹路径 _引包表示只执行init函数
+	"os"
 
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+
+	_ "swagger.demo/docs" // 执行swag init生成的docs文件夹路径 _引包表示只执行init函数
 )
 
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample server celler server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
 func main() {
+	disablingKey := "SWAGGER_DISABLE"
+
+	debug := false
+	if debug {
+		os.Setenv(disablingKey, "true") // 禁用swagger
+	}
 
 	router := gin.Default()
-
-	// swagger访问地址 http://localhost:8080/swagger/index.html
-	url := ginSwagger.URL("doc.json")                                              // The url pointing to API definition
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url)) // 添加swagger的路由  不然报错404 page not found
+	// http://localhost:8080/swagger/index.html
+	router.GET("/swagger/*any", ginSwagger.DisablingWrapHandler(swaggerFiles.Handler, disablingKey))
 
 	router.GET("/test", Test)
 	v1 := router.Group("/api/v1")
@@ -24,7 +37,6 @@ func main() {
 		v1.GET("/print", Print)
 		v1.GET("/hello", Hello)
 	}
-
 	router.Run()
 }
 
