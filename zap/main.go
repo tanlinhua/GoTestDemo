@@ -72,9 +72,13 @@ func InitLogger(logpath string, loglevel string) {
 	logger = zap.New(core, caller, development, filed)
 	logger.Info("DefaultLogger init success")
 }
+
 func main() {
+	tag := "admin"
+	filePath := "runtime/log/" + tag + "/"
+	file := filePath + "%Y%m%d.log"
 	// 历史记录日志名字为：all.log，服务重新启动，日志会追加，不会删除
-	InitLogger("./all.log", "debug")
+	InitLogger(file, "debug")
 	// 强结构形式
 	logger.Info("test",
 		zap.String("string", "string"),

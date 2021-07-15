@@ -32,7 +32,7 @@ func demoFunc() {
 }
 
 func main() {
-	testModel := 1
+	testModel := 2
 
 	runTimes := 100
 
