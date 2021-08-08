@@ -24,6 +24,7 @@ func myFunc(data interface{}) {
 	atomic.AddInt32(&sum, d.I)
 	fmt.Printf("run with %d\n", d.I)
 	fmt.Println(d.S)
+	time.Sleep(time.Second * 3)
 }
 
 func demoFunc() {
