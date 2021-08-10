@@ -1,49 +1,85 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
-type Factory interface {
-	Method1() //处理方法1
+type Sleeper interface {
+	Sleep()
 }
 
-//奶牛
-type Cow struct {
+type Eater interface {
+	Eat(foodName string)
+}
+
+type LazyAnimal interface {
+	Sleeper
+	Eater
+}
+
+// Dog 对象:狗
+type Dog struct {
 	Name string
 }
 
-//奶牛的处理方法，实现接口
-func (cow Cow) Method1() {
-	fmt.Printf("%s：挤奶\n", cow.Name)
+func (d Dog) Sleep() {
+	fmt.Printf("Dog %s is sleeping\n", d.Name)
 }
 
-//苹果
-type Apple struct {
+func (d Dog) Eat(foodName string) {
+	fmt.Printf("Dog %s is eating %s\n", d.Name, foodName)
+}
+
+// Cat 对象:猫
+type Cat struct {
 	Name string
 }
 
-//苹果的处理方法，实现接口
-func (a Apple) Method1() {
-	fmt.Printf("%s：切块\n", a.Name)
+func (c Cat) Sleep() {
+	fmt.Printf("Cat %s is sleeping\n", c.Name)
+}
+
+func (c Cat) Eat(foodName string) {
+	fmt.Printf("Cat %s is eating %s\n", c.Name, foodName)
+}
+
+func AnimalSleep(s Sleeper) {
+	s.Sleep()
+}
+
+// Test1 测试 Sleeper 接口
+func Test1() {
+	var s Sleeper
+	dog := Dog{Name: "xiaohei"}
+	cat := Cat{Name: "kitty"}
+
+	fmt.Println("第1种调用方法")
+	s = dog
+	AnimalSleep(s)
+	s = cat
+	AnimalSleep(s)
+
+	fmt.Println("第2种调用方法")
+	sleepList := []Sleeper{Dog{Name: "xiaohei2"}, Cat{Name: "kitty2"}}
+	for _, s := range sleepList {
+		s.Sleep()
+	}
+}
+
+// Test2 测试 LazyAnimal 接口
+func Test2() {
+	sleepList := []LazyAnimal{Dog{Name: "xiaohei3"}, Cat{Name: "kitty3"}}
+	foodName := "apple"
+	for i, s := range sleepList {
+		s.Sleep()
+		s.Eat(foodName + strconv.Itoa(i))
+	}
 }
 
 func main() {
-
-	// var fa Factory
-	// cow := Cow{"奶牛"}
-	// fa = cow
-	// fa.Method1()
-
-	// apple := Apple{"苹果"}
-	// fa = apple
-	// fa.Method1()
-
-	falg := 2
-	var fa Factory
-
-	if falg == 1 {
-		fa = Cow{"Cow"}
-	} else {
-		fa = Apple{"苹果"}
-	}
-	fa.Method1()
+	fmt.Println("Test1")
+	Test1()
+	fmt.Println("Test2")
+	Test2()
 }
