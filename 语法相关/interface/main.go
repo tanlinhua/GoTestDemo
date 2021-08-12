@@ -6,7 +6,7 @@ import (
 )
 
 type Sleeper interface {
-	Sleep()
+	Sleep() int
 }
 
 type Eater interface {
@@ -23,8 +23,9 @@ type Dog struct {
 	Name string
 }
 
-func (d Dog) Sleep() {
+func (d Dog) Sleep() int {
 	fmt.Printf("Dog %s is sleeping\n", d.Name)
+	return 0
 }
 
 func (d Dog) Eat(foodName string) {
@@ -36,8 +37,9 @@ type Cat struct {
 	Name string
 }
 
-func (c Cat) Sleep() {
+func (c Cat) Sleep() int {
 	fmt.Printf("Cat %s is sleeping\n", c.Name)
+	return 0
 }
 
 func (c Cat) Eat(foodName string) {
